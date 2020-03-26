@@ -37,8 +37,6 @@ class ViewController: UIViewController {
         @unknown default:
             print("Something went wrong.")
         }
-        
-        initializeCaptureSession()
         // Do any additional setup after loading the view.
     }
     
