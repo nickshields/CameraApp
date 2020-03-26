@@ -39,7 +39,9 @@ class ViewController: UIViewController {
 
     func initializeCaptureSession(){
         session.sessionPreset = AVCaptureSession.Preset.high
-        camera = AVCaptureDevice.default(for: .video)
+        camera = AVCaptureDevice.default(.builtInDualCamera, for: AVMediaType.video, position: .front)
+        
+        
         
         do{
             let cameraCaptureInput = try AVCaptureDeviceInput(device: camera!)
