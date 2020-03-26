@@ -11,7 +11,7 @@ import AVFoundation
 
 class ViewController: UIViewController {
     
-    let session = AVCaptureSession()
+    var session = AVCaptureSession()
     var camera : AVCaptureDevice?
     var cameraPreviewLayer : AVCaptureVideoPreviewLayer?
     var cameraCaptureOutput : AVCapturePhotoOutput?
@@ -20,6 +20,24 @@ class ViewController: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        switch AVCaptureDevice.authorizationStatus(for: .video){
+        case .authorized:
+            self.initializeCaptureSession()
+        case .notDetermined:
+            AVCaptureDevice.requestAccess(for: .video) { granted in
+                if granted {
+                    self.initializeCaptureSession()
+                }
+            }
+        case .denied:
+            return
+        case .restricted:
+            return
+        @unknown default:
+            print("Something went wrong.")
+        }
+        
         initializeCaptureSession()
         // Do any additional setup after loading the view.
     }
@@ -39,9 +57,7 @@ class ViewController: UIViewController {
 
     func initializeCaptureSession(){
         session.sessionPreset = AVCaptureSession.Preset.high
-        camera = AVCaptureDevice.default(.builtInDualCamera, for: AVMediaType.video, position: .front)
-        
-        
+        camera = AVCaptureDevice.default(.builtInDualCamera, for: AVMediaType.video, position: .back)
         
         do{
             let cameraCaptureInput = try AVCaptureDeviceInput(device: camera!)
