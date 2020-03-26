@@ -23,6 +23,19 @@ class ViewController: UIViewController {
         initializeCaptureSession()
         // Do any additional setup after loading the view.
     }
+    
+    func displayCapturedPhoto(capturedPhoto : UIImage){
+        let imagePreviewViewController = storyboard?.instantiateViewController(identifier: "ImagePreviewViewController") as! ImagePreviewViewController
+    
+        imagePreviewViewController.capturedImage = capturedPhoto
+        navigationController?.pushViewController(imagePreviewViewController, animated: true)
+    }
+    
+    @IBAction func takePicture(_ sender: Any) {
+        
+        takePicture()
+    }
+    
 
     func initializeCaptureSession(){
         session.sessionPreset = AVCaptureSession.Preset.high
@@ -47,9 +60,30 @@ class ViewController: UIViewController {
         view.layer.insertSublayer(cameraPreviewLayer!, at: 0)
         
         session.startRunning()
-        
+    }
+    
+    func takePicture(){
+        let settings = AVCapturePhotoSettings()
+        settings.flashMode = .auto
+        cameraCaptureOutput?.capturePhoto(with: settings, delegate: self)
         
     }
-
 }
 
+extension ViewController : AVCapturePhotoCaptureDelegate {
+    
+    func photoOutput(_ output: AVCapturePhotoOutput, didFinishProcessingPhoto photo: AVCapturePhoto, error: Error?) {
+        
+        if let unwrappedError = error {
+            print(unwrappedError.localizedDescription)
+        }else{
+            if let imageData = photo.fileDataRepresentation() {
+                if let finalImage = UIImage(data: imageData){
+                    displayCapturedPhoto(capturedPhoto: finalImage)
+            }
+        }
+    }
+    
+}
+
+}

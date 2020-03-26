@@ -15,6 +15,7 @@
 		135CF15F242C2C62000E98ED /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 135CF15D242C2C62000E98ED /* LaunchScreen.storyboard */; };
 		135CF16A242C2C63000E98ED /* CameraAppTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 135CF169242C2C63000E98ED /* CameraAppTests.swift */; };
 		135CF175242C2C63000E98ED /* CameraAppUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 135CF174242C2C63000E98ED /* CameraAppUITests.swift */; };
+		135CF183242C4499000E98ED /* ImagePreviewViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 135CF182242C4499000E98ED /* ImagePreviewViewController.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -49,6 +50,7 @@
 		135CF170242C2C63000E98ED /* CameraAppUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = CameraAppUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		135CF174242C2C63000E98ED /* CameraAppUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CameraAppUITests.swift; sourceTree = "<group>"; };
 		135CF176242C2C63000E98ED /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		135CF182242C4499000E98ED /* ImagePreviewViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImagePreviewViewController.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -106,6 +108,7 @@
 				135CF15B242C2C62000E98ED /* Assets.xcassets */,
 				135CF15D242C2C62000E98ED /* LaunchScreen.storyboard */,
 				135CF160242C2C62000E98ED /* Info.plist */,
+				135CF182242C4499000E98ED /* ImagePreviewViewController.swift */,
 			);
 			path = CameraApp;
 			sourceTree = "<group>";
@@ -261,6 +264,7 @@
 			files = (
 				135CF157242C2C61000E98ED /* ViewController.swift in Sources */,
 				135CF153242C2C61000E98ED /* AppDelegate.swift in Sources */,
+				135CF183242C4499000E98ED /* ImagePreviewViewController.swift in Sources */,
 				135CF155242C2C61000E98ED /* SceneDelegate.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
