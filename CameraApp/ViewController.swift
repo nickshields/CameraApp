@@ -118,6 +118,9 @@ class ViewController: UIViewController {
        // MARK: Setting up outputs
         
         let videoOutput = AVCaptureVideoDataOutput()
+        videoOutput.videoSettings = [kCVPixelBufferPixelFormatTypeKey as AnyHashable as! String: kCVPixelFormatType_32BGRA]
+        videoOutput.setSampleBufferDelegate(self, queue: DispatchQueue.main)
+        
         let audioOutput = AVCaptureAudioDataOutput()
         guard session.canAddOutput(audioOutput) else {return}
         guard session.canAddOutput(videoOutput) else {return}
@@ -136,6 +139,7 @@ class ViewController: UIViewController {
         view.layer.insertSublayer(cameraPreviewLayer!, at: 0)
         
         session.startRunning()
+        
     }
     
     func takePicture(){
@@ -146,7 +150,7 @@ class ViewController: UIViewController {
     }
 }
 
-extension ViewController : AVCaptureAudioDataOutputSampleBufferDelegate {
+extension ViewController : AVCaptureAudioDataOutputSampleBufferDelegate, AVCaptureVideoDataOutputSampleBufferDelegate {
     
     func captureOutput(_ output: AVCaptureOutput, didOutput sampleBuffer: CMSampleBuffer, from connection: AVCaptureConnection){
         print("Hello I am here!")
