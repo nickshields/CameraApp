@@ -54,10 +54,47 @@ class ViewController: UIViewController {
     
 
     func initializeCaptureSession(){
-        session.sessionPreset = AVCaptureSession.Preset.high
-        camera = AVCaptureDevice.default(.builtInDualCamera, for: AVMediaType.video, position: .back)
         
-        do{
+        // MARK: Setting up inputs
+        
+        session.beginConfiguration()
+        
+        let videoDevice = AVCaptureDevice.default(.builtInDualCamera, for: .video, position: .back)
+        let audioDevice = AVCaptureDevice.default(.builtInMicrophone, for: .audio, position: .back)
+        
+        //Add Camera
+        guard
+            let videoDeviceInput = try? AVCaptureDeviceInput(device: videoDevice!),
+            session.canAddInput(videoDeviceInput)
+            else {return}
+        session.addInput(videoDeviceInput)
+        
+        //Add Microphone
+        guard
+            let audioDeviceInput = try? AVCaptureDeviceInput(device: audioDevice!),
+            session.canAddInput(audioDeviceInput)
+            else {return}
+        session.addInput(audioDeviceInput)
+        
+        
+       // MARK: Setting up outputs
+        
+        let videoOutput = AVCaptureVideoDataOutput()
+        let audioOutput = AVCaptureAudioDataOutput()
+        guard session.canAddOutput(audioOutput) else {return}
+        guard session.canAddOutput(videoOutput) else {return}
+        
+        session.sessionPreset = .high
+        session.addOutput(videoOutput)
+        session.addOutput(audioOutput)
+        
+        session.commitConfiguration()
+    
+        
+        //session.sessionPreset = AVCaptureSession.Preset.high
+        //camera = AVCaptureDevice.default(.builtInDualCamera, for: AVMediaType.video, position: .back)
+        
+        /*do{
             let cameraCaptureInput = try AVCaptureDeviceInput(device: camera!)
             cameraCaptureOutput = AVCapturePhotoOutput()
             
@@ -66,7 +103,7 @@ class ViewController: UIViewController {
             
         }catch{
             print(error.localizedDescription)
-        }
+        }*/
         
         cameraPreviewLayer = AVCaptureVideoPreviewLayer(session: session)
         cameraPreviewLayer?.videoGravity = AVLayerVideoGravity.resizeAspectFill
