@@ -21,23 +21,60 @@ class ViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        self.authorizeVideo()
+        self.authorizeAudio()
+        self.initializeCaptureSession()
+        
+
+        // Do any additional setup after loading the view.
+    }
+    
+    func authorizeVideo(){
+        let semaphore = DispatchSemaphore(value:0)
         switch AVCaptureDevice.authorizationStatus(for: .video){
         case .authorized:
-            self.initializeCaptureSession()
+            semaphore.signal()
+        case .notDetermined:
+            AVCaptureDevice.requestAccess(for: .video) { granted in
+                if granted {
+                    print("Access Granted")
+                }
+            }
+            semaphore.signal()
+        case .denied:
+            semaphore.signal()
+        case .restricted:
+            semaphore.signal()
+        @unknown default:
+            print("Something went wrong.")
+            semaphore.signal()
+        }
+        semaphore.wait()
+    }
+    
+    func authorizeAudio(){
+        let semaphore = DispatchSemaphore(value:0)
+        switch AVCaptureDevice.authorizationStatus(for: .audio){
+        case .authorized:
+            print("Already Authorized!")
+            semaphore.signal()
         case .notDetermined:
             AVCaptureDevice.requestAccess(for: .video) { granted in
                 if granted {
                     self.initializeCaptureSession()
                 }
             }
+            semaphore.signal()
         case .denied:
-            return
+            semaphore.signal()
         case .restricted:
-            return
+            semaphore.signal()
         @unknown default:
             print("Something went wrong.")
+            semaphore.signal()
         }
-        // Do any additional setup after loading the view.
+        
+        semaphore.wait()
     }
     
     func displayCapturedPhoto(capturedPhoto : UIImage){
@@ -60,7 +97,7 @@ class ViewController: UIViewController {
         session.beginConfiguration()
         
         let videoDevice = AVCaptureDevice.default(.builtInDualCamera, for: .video, position: .back)
-        let audioDevice = AVCaptureDevice.default(.builtInMicrophone, for: .audio, position: .back)
+        let audioDevice = AVCaptureDevice.default(for: .audio)
         
         //Add Camera
         guard
@@ -70,6 +107,7 @@ class ViewController: UIViewController {
         session.addInput(videoDeviceInput)
         
         //Add Microphone
+        
         guard
             let audioDeviceInput = try? AVCaptureDeviceInput(device: audioDevice!),
             session.canAddInput(audioDeviceInput)
