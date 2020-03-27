@@ -118,6 +118,8 @@ class ViewController: UIViewController {
        // MARK: Setting up outputs
         
         let videoOutput = AVCaptureVideoDataOutput()
+        
+        //Needed to set these for live capture (I think)
         videoOutput.videoSettings = [kCVPixelBufferPixelFormatTypeKey as AnyHashable as! String: kCVPixelFormatType_32BGRA]
         videoOutput.setSampleBufferDelegate(self, queue: DispatchQueue.main)
         
