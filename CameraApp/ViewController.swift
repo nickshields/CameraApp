@@ -127,21 +127,6 @@ class ViewController: UIViewController {
         session.addOutput(audioOutput)
         
         session.commitConfiguration()
-    
-        
-        //session.sessionPreset = AVCaptureSession.Preset.high
-        //camera = AVCaptureDevice.default(.builtInDualCamera, for: AVMediaType.video, position: .back)
-        
-        /*do{
-            let cameraCaptureInput = try AVCaptureDeviceInput(device: camera!)
-            cameraCaptureOutput = AVCapturePhotoOutput()
-            
-            session.addInput(cameraCaptureInput)
-            session.addOutput(cameraCaptureOutput!)
-            
-        }catch{
-            print(error.localizedDescription)
-        }*/
         
         cameraPreviewLayer = AVCaptureVideoPreviewLayer(session: session)
         cameraPreviewLayer?.videoGravity = AVLayerVideoGravity.resizeAspectFill
@@ -159,6 +144,18 @@ class ViewController: UIViewController {
         cameraCaptureOutput?.capturePhoto(with: settings, delegate: self)
         
     }
+}
+
+extension ViewController : AVCaptureAudioDataOutputSampleBufferDelegate {
+    
+    func captureOutput(_ output: AVCaptureOutput, didOutput sampleBuffer: CMSampleBuffer, from connection: AVCaptureConnection){
+        print("Hello I am here!")
+    }
+    
+    
+    
+    
+    
 }
 
 extension ViewController : AVCapturePhotoCaptureDelegate {
